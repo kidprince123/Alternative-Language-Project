@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+
 public class Cell {
     private String oem;
     private String model;
@@ -191,9 +192,10 @@ public class Cell {
         String launchStatus = data[3];
         String bodyDimensions = data[4].equals("-") ? null : data[4];
         Float bodyWeight = null;
-        if (data[5].matches("\\d+")) {
-            bodyWeight = Float.parseFloat(data[5]);
-        }
+        String weightStr = data[5].split(" ")[0]; // This splits the weight by space and takes the first part
+        if (weightStr.matches("\\d+")) {
+        bodyWeight = Float.parseFloat(weightStr);
+}
         String bodySim = data[6].equals("No") ? null : data[6];
         String displayType = data[7].equals("-") ? null : data[7];
         Float displaySize = null;
@@ -236,15 +238,16 @@ public class Cell {
     }
 
     // Method to find phones announced in one year and released in another
-    public static ArrayList<Cell> findPhonesAnnouncedReleasedDiffYears(HashMap<Integer, Cell> cellMap) {
-        ArrayList<Cell> mismatchedPhones = new ArrayList<>();
-        for (Cell cell : cellMap.values()) {
-            if (cell.getLaunchAnnounced() != null && !cell.getLaunchAnnounced().equals(cell.getLaunchStatus())) {
-                mismatchedPhones.add(cell);
-            }
+    // Method to find phones announced in one year and released in another
+public static ArrayList<String> findPhonesAnnouncedReleasedDiffYears(HashMap<Integer, Cell> cellMap) {
+    ArrayList<String> mismatchedPhones = new ArrayList<>();
+    for (Cell cell : cellMap.values()) {
+        if (cell.getLaunchAnnounced() != null && !cell.getLaunchStatus().contains(cell.getLaunchAnnounced().toString())) {
+            mismatchedPhones.add(cell.getOem() + " " + cell.getModel());
         }
-        return mismatchedPhones;
     }
+    return mismatchedPhones;
+}
 
     // Method to count phones with only one feature sensor
     public static int countPhonesWithOneSensor(HashMap<Integer, Cell> cellMap) {
@@ -284,15 +287,16 @@ public class Cell {
         String filename = "cells.csv";
         HashMap<Integer, Cell> cellMap = readCSV(filename);
     
-        System.out.println("Company with highest average body weight: " + findHighestAvgBodyWeightOEM(cellMap));
+        System.out.println("Company with highest average body weight: " + findHighestAvgBodyWeightOEM(cellMap)); 
     
-        System.out.println("Phones announced in one year and released in another:");
-        for (Cell cell : findPhonesAnnouncedReleasedDiffYears(cellMap)) {
-            System.out.println(cell);
-        }
+       
+     System.out.println("Phones announced in one year and released in another:");
+    for (String phoneInfo : findPhonesAnnouncedReleasedDiffYears(cellMap)) {
+        System.out.println(phoneInfo); 
+        } 
     
-        System.out.println("Number of phones with only one feature sensor: " + countPhonesWithOneSensor(cellMap));
+           System.out.println("Number of phones with only one feature sensor: " + countPhonesWithOneSensor(cellMap)); 
     
-        System.out.println("Year with the most phones launched after 1999: " + findYearWithMostPhones(cellMap));
+          System.out.println("Year with the most phones launched after 1999: " + findYearWithMostPhones(cellMap)); 
     }
 }
