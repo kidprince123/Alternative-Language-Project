@@ -16,4 +16,12 @@ public class CellTest {
         cellMap = Cell.readCSV("cells.csv");
     }
 
+    // Test that the file being read is not empty
+    @Test
+    public void testFileNotEmpty() throws IOException {
+        String filename = "cells_test.csv";
+        Assertions.assertTrue(Files.exists(Paths.get(filename)), "File should exist");
+        Assertions.assertTrue(Files.size(Paths.get(filename)) > 0, "File should not be empty");
+    }
+
 }
