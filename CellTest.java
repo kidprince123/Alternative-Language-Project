@@ -24,4 +24,22 @@ public class CellTest {
         Assertions.assertTrue(Files.size(Paths.get(filename)) > 0, "File should not be empty");
     }
 
+    // Test each column's final transformation
+    @Test
+    public void testColumnsTransformation() {
+        for (Cell cell : cellMap.values()) {
+            // Check if displaySize is a Float
+            Assertions.assertTrue(cell.getDisplaySize() == null || cell.getDisplaySize() instanceof Float, "Display size should be a Float or null");
+            // Add other transformation assertions here, for example:
+
+            // Check if launchAnnounced is an Integer and matches a year format
+            if (cell.getLaunchAnnounced() != null) {
+                Assertions.assertTrue(Pattern.matches("\\d{4}", cell.getLaunchAnnounced().toString()), "Launch announced should be a year");
+            }
+            
+            // Check if bodyWeight is a Float
+            Assertions.assertTrue(cell.getBodyWeight() == null || cell.getBodyWeight() instanceof Float, "Body weight should be a Float or null");
+        }
+    }
+
 }
