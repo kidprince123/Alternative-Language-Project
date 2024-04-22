@@ -42,4 +42,50 @@ public class CellTest {
         }
     }
 
+    // Test for missing or "-" data replacement with a null value
+    @Test
+    public void testMissingDataReplacement() {
+        for (Cell cell : cellMap.values()) {
+            // Check if any of the String fields contain "-"
+            Assertions.assertNotEquals("-", cell.getOem(), "OEM should not contain '-'");
+            Assertions.assertNotEquals("-", cell.getModel(), "Model should not contain '-'");
+            Assertions.assertNotEquals("-", cell.getLaunchAnnounced(), "LaunchAnnounced should not contain '-'");
+            Assertions.assertNotEquals("-", cell.getLaunchStatus(), "LaunchStatus should not contain '-'");
+            Assertions.assertNotEquals("-", cell.getBodyDimensions(), "BoydDimensions should not contain '-'");
+            Assertions.assertNotEquals("-", cell.getBodyWeight(), "BodyWeight should not contain '-'");
+            Assertions.assertNotEquals("-", cell.getBodySim(), "BodySim should not contain '-'");
+            Assertions.assertNotEquals("-", cell.getDisplayType(), "DisplayType should not contain '-'");
+            Assertions.assertNotEquals("-", cell.getDisplaySize(), "DisplaySize should not contain '-'");
+            Assertions.assertNotEquals("-", cell.getDisplayResolution(), "DisplayResolution should not contain '-'");
+            Assertions.assertNotEquals("-", cell.getFeaturesSensors(), "FeatureSensors should not contain '-'");
+            Assertions.assertNotEquals("-", cell.getPlatformOs(), "PlatformOs should not contain '-'");
+            
+
+            // Check if fields are null when they should be
+            Assertions.assertNotNull(cell.getOem(), "OEM should not be null");
+            Assertions.assertNotNull(cell.getModel(), "Model should not be null");
+            Assertions.assertNotNull(cell.getLaunchAnnounced(), "Launch announced should not be null");
+            Assertions.assertNotNull(cell.getLaunchStatus(), "Launch status should not be null");
+            Assertions.assertNotNull(cell.getBodyDimensions(), "Body dimensions should not be null");
+            Assertions.assertNotNull(cell.getBodyWeight(), "Body weight should not be null");
+            Assertions.assertNotNull(cell.getBodySim(), "Body sim should not be null");
+            Assertions.assertNotNull(cell.getDisplayType(), "Display type should not be null");
+            Assertions.assertNotNull(cell.getDisplayResolution(), "Display resolution should not be null");
+            Assertions.assertNotNull(cell.getFeaturesSensors(), "Display Features Sensors should not be null");
+            Assertions.assertNotNull(cell.getPlatformOs(), "PlatformOs Features Sensors should not be null");
+        
+
+            // Check if numerical fields are correctly parsed or null
+            if (cell.getLaunchAnnounced() != null) {
+                Assertions.assertTrue(cell.getLaunchAnnounced() >= 0, "Launch announced should be non-negative or null");
+            }
+            if (cell.getBodyWeight() != null) {
+                Assertions.assertTrue(cell.getBodyWeight() >= 0, "Body weight should be non-negative or null");
+            }
+            if (cell.getDisplaySize() != null) {
+                Assertions.assertTrue(cell.getDisplaySize() >= 0, "Display size should be non-negative or null");
+            }
+        }
+    }
+
 }
